@@ -1,6 +1,7 @@
 from django.http.response import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
+from accounts.models import UserModel
 from .models import playlist_user
 from django.urls.base import reverse
 from django.contrib.auth.decorators import login_required
@@ -24,7 +25,7 @@ def default(request):
 
 @login_required(redirect_field_name="login")
 def playlist(request):
-    cur_user = playlist_user.objects.get(username = request.user)
+    cur_user = UserModel.objects.get(id=request.user.id)
     try:
       song = request.GET.get('song')
       song = cur_user.playlist_song_set.get(song_title=song)
@@ -57,7 +58,7 @@ def search(request):
 
 @login_required(redirect_field_name="login")
 def add_playlist(request):
-    cur_user = playlist_user.objects.get(username = request.user)
+    cur_user = UserModel.objects.get(id=request.user.id)
     if (request.POST['title'],) not in cur_user.playlist_song_set.values_list('song_title', ):
         songdic = (YoutubeSearch(request.POST['title'], max_results=1).to_dict())[0]
         song__albumsrc=songdic['thumbnails'][0]

@@ -78,20 +78,20 @@ WSGI_APPLICATION = 'youtify.wsgi.application'
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-
-    # # Remote or production db
-    # "default": {
-    #     "ENGINE": "django_cockroachdb",
-    #     "NAME": config('DB_NAME'),
-    #     "HOST": config('DB_HOST'),
-    #     "USER": config('DB_USER'),
-    #     "PORT": config('DB_PORT'),
-    #     "PASSWORD": config('DB_PASS')
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     # }
+
+    # Remote or production db
+    "default": {
+        "ENGINE": "djongo",
+        "NAME": config('DB_NAME'),
+        "ENFORCE_SCHEMA": False,
+        "CLIENT": {
+            "host": config('DB_HOST')
+        }
+    }
 }
 
 

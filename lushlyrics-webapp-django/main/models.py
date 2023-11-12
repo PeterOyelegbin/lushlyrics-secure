@@ -1,15 +1,17 @@
 from django.db import models
+from accounts.models import UserModel
 
 
 # Create your models here.
 class playlist_user(models.Model):
-    username = models.CharField(max_length=200)
+    email = models.CharField(max_length=200)
 
     def __str__(self):
-        return f'Username = {self.username}, Liked Songs = {list(self.playlist_song_set.all())}'
+        return f'Username = {self.id}, Liked Songs = {list(self.playlist_song_set.all())}'
+
 
 class playlist_song(models.Model):
-    user = models.ForeignKey(playlist_user, on_delete=models.CASCADE)
+    user = models.ForeignKey(UserModel, on_delete=models.CASCADE)
     song_title = models.CharField(max_length=200)
     song_youtube_id =  models.CharField(max_length=20)
     song_albumsrc = models.CharField(max_length=255)
@@ -19,5 +21,3 @@ class playlist_song(models.Model):
 
     def __str__(self):
       return f'Title = {self.song_title}, Date = {self.song_date_added}'
-
-
